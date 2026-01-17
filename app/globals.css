@@ -4,8 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-josefin: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
-  --font-vibes: var(--font-vibes), cursive;
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* - Global Color Palette (Light Mode - White & Navy Theme) */
@@ -76,7 +75,7 @@
   }
 
   body {
-    font-family: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     @apply bg-background text-foreground antialiased;
 
     min-height: 100dvh;
