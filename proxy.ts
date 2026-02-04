@@ -33,6 +33,7 @@ export async function proxy(request: NextRequest) {
   }
 
   if (
+    process.env.NODE_ENV === "production" &&
     (pathname.startsWith("/api") || pathname.startsWith("/login")) &&
     process.env.UPSTASH_REDIS_REST_URL
   ) {

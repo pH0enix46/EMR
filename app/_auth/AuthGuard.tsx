@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { isAuthenticated } from "@/app/_utils/auth";
+import { isAuthenticated } from "@/app/_auth/auth";
 
 const PUBLIC_ROUTES = ["/login"];
 

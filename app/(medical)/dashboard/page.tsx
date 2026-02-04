@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentUser, logout, type User } from "@/app/_utils/auth";
+import { getCurrentUser, logout, type User } from "@/app/_auth/auth";
 
 export default function DashboardPage() {
   const router = useRouter();
