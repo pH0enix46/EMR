@@ -16,8 +16,6 @@ export const metadata: Metadata = {
   },
 };
 
-import { ThemeProvider } from "@/app/_context/ThemeContext";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,9 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased`}>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
+      <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );
 }
