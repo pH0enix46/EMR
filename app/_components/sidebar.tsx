@@ -48,9 +48,9 @@ export function Sidebar() {
   return (
     <motion.div
       initial={false}
-      animate={{ width: isCollapsed ? 100 : 320 }}
+      animate={{ width: isCollapsed ? 120 : 320 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
-      className="h-[calc(100vh-2rem)] bg-[#0d0d0d] text-white rounded-4xl flex flex-col overflow-visible shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar m-4"
+      className="h-full bg-[#0d0d0d] text-white rounded-4xl flex flex-col overflow-visible shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar"
     >
       {/* Profile Section */}
       <div
