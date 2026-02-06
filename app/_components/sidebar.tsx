@@ -13,9 +13,13 @@ import {
   Menu01Icon,
   Cancel01Icon,
   DashboardCircleIcon,
+  ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 import { getCurrentUser, logout, type User } from "@/app/_auth/auth";
 import { cn } from "@/app/_utils/cn";
+
+// Proper types for Hugeicons
+type HugeiconsIconType = any; // The library uses a complex object format
 
 const NAV_ITEMS = [
   { name: "Patient", href: "/medical/dashboard/patients", icon: UserGroupIcon },
@@ -51,9 +55,9 @@ export function Sidebar() {
   return (
     <motion.div
       initial={false}
-      animate={{ width: isCollapsed ? 120 : 320 }}
+      animate={{ width: isCollapsed ? 100 : 320 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
-      className="h-[calc(100vh-2rem)] bg-[#0d0d0d] text-white rounded-[3rem] flex flex-col overflow-hidden shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar"
+      className="h-[calc(100vh-2rem)] bg-[#0d0d0d] text-white rounded-[3rem] flex flex-col overflow-visible shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar m-4"
     >
       {/* Profile Section */}
       <div
@@ -100,8 +104,24 @@ export function Sidebar() {
           isActive={pathname === "/medical/dashboard"}
         />
 
-        <div className="px-4 py-3">
-          <div className="h-px bg-white/10 w-full rounded-full shadow-[0_0_10px_rgba(255,255,255,0.05)]" />
+        {/* Divider with Collapse Toggle Button (The "Red Mark" Logic) */}
+        <div className="px-4 py-4 relative">
+          <div className="h-px bg-white/10 w-full rounded-full" />
+
+          {/* The Collapse Toggle Button - Positioned where user marked */}
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 bg-[#1d1d1d] border border-white/10 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-all shadow-xl z-20"
+          >
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
+              size={16}
+              className={cn(
+                "transition-transform duration-300",
+                isCollapsed ? "rotate-0" : "rotate-180",
+              )}
+            />
+          </button>
         </div>
 
         {NAV_ITEMS.map((item) => (
@@ -116,25 +136,6 @@ export function Sidebar() {
 
       {/* Bottom Actions */}
       <div className="p-6 space-y-2 mt-auto">
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className={cn(
-            "w-full flex items-center gap-4 px-5 py-5 rounded-3xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group/collapse",
-            isCollapsed && "justify-center px-0",
-          )}
-        >
-          <div className="relative shrink-0 w-6 h-6 flex items-center justify-center">
-            <HugeiconsIcon
-              icon={isCollapsed ? Menu01Icon : Cancel01Icon}
-              size={24}
-              className="transition-all duration-500 group-hover/collapse:rotate-180"
-            />
-          </div>
-          {!isCollapsed && (
-            <span className="font-bold text-lg tracking-tight">Collapse</span>
-          )}
-        </button>
-
         <button
           onClick={handleLogout}
           className={cn(
@@ -167,7 +168,7 @@ function NavItem({
 }: {
   name: string;
   href: string;
-  icon: React.ElementType;
+  icon: HugeiconsIconType;
   isCollapsed: boolean;
   isActive: boolean;
 }) {
@@ -175,7 +176,7 @@ function NavItem({
 
   return (
     <button
-      onClick={() => router.push(href as any)}
+      onClick={() => router.push(href)}
       className={cn(
         "w-full flex items-center gap-4 px-5 py-5 rounded-[2rem] transition-all duration-500 group relative",
         isActive
@@ -204,15 +205,18 @@ function NavItem({
           )}
         />
       </div>
-      {!isCollapsed && (
-        <motion.span
-          initial={false}
-          animate={{ opacity: 1, x: 0 }}
-          className="relative z-10 font-bold text-lg tracking-tight whitespace-nowrap overflow-hidden"
-        >
-          {name}
-        </motion.span>
-      )}
+      <AnimatePresence>
+        {!isCollapsed && (
+          <motion.span
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: "auto" }}
+            exit={{ opacity: 0, width: 0 }}
+            className="relative z-10 font-bold text-lg tracking-tight whitespace-nowrap overflow-hidden"
+          >
+            {name}
+          </motion.span>
+        )}
+      </AnimatePresence>
     </button>
   );
 }
