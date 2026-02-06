@@ -18,6 +18,7 @@ const CONFIG = {
 
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  const hostname = request.headers.get("host") || "";
   const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1";
 
   if (request.method === "OPTIONS") {
@@ -69,11 +70,27 @@ export async function proxy(request: NextRequest) {
   }
 
   if (pathname.startsWith("/admin") && userRole !== "admin") {
-    return NextResponse.rewrite(new URL("/403", request.nextUrl.origin));
+    return NextResponse.rewrite(new URL("/403", request.url));
   }
 
   if (isPublicOnly && token) {
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl.origin));
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  // SUBDOMAIN LOGIC
+  if (pathname === "/dashboard") {
+    const isSuperAdmin = hostname.startsWith("superadmin.");
+    if (isSuperAdmin) {
+      return NextResponse.rewrite(
+        new URL("/superadmin/dashboard", request.url),
+      );
+    } else {
+      return NextResponse.rewrite(new URL("/medical/dashboard", request.url));
+    }
+  }
+
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   const response = NextResponse.next();
@@ -105,9 +122,3 @@ export async function proxy(request: NextRequest) {
 
   return response;
 }
-
-export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
-};
