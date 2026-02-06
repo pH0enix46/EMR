@@ -7,11 +7,12 @@ import {
   Download01Icon,
   MoreHorizontalIcon,
   Add01Icon,
-  UserGroupIcon,
+  DoctorIcon,
   Calendar03Icon,
   Clock01Icon,
   Mail01Icon,
   Call02Icon,
+  StarIcon,
 } from "@hugeicons/core-free-icons";
 import { motion } from "motion/react";
 import { cn } from "@/app/_utils/cn";
@@ -19,119 +20,70 @@ import { EMRDataTable } from "../../_components/data-table";
 
 // --- Mock Data ---
 
-interface Patient {
+interface Doctor {
   id: string;
   name: string;
+  specialization: string;
+  experience: string;
   email: string;
   phone: string;
-  status: "active" | "inactive" | "on-hold";
-  lastVisit: string;
-  nextAppointment: string;
-  gender: "Male" | "Female" | "Other";
-  age: number;
+  status: "available" | "busy" | "on-leave";
+  rating: number;
 }
 
-const MOCK_PATIENTS: Patient[] = [
+const MOCK_DOCTORS: Doctor[] = [
   {
-    id: "P-001",
-    name: "Alexander Thompson",
-    email: "alex.t@example.com",
-    phone: "+1 234-567-8901",
-    status: "active",
-    lastVisit: "2024-05-12",
-    nextAppointment: "2024-06-15",
-    gender: "Male",
-    age: 34,
+    id: "D-001",
+    name: "Dr. Elizabeth Vance",
+    specialization: "Cardiology",
+    experience: "12 Years",
+    email: "e.vance@apollo.emr",
+    phone: "+1 555-0101",
+    status: "available",
+    rating: 4.9,
   },
   {
-    id: "P-002",
-    name: "Sarah Jenkins",
-    email: "s.jenkins@example.com",
-    phone: "+1 234-567-8902",
-    status: "active",
-    lastVisit: "2024-05-10",
-    nextAppointment: "2024-06-20",
-    gender: "Female",
-    age: 28,
+    id: "D-002",
+    name: "Dr. Marcus Thorne",
+    specialization: "Neurology",
+    experience: "8 Years",
+    email: "m.thorne@apollo.emr",
+    phone: "+1 555-0102",
+    status: "busy",
+    rating: 4.8,
   },
   {
-    id: "P-003",
-    name: "Michael Chen",
-    email: "m.chen@example.com",
-    phone: "+1 234-567-8903",
-    status: "inactive",
-    lastVisit: "2024-04-20",
-    nextAppointment: "N/A",
-    gender: "Male",
-    age: 45,
+    id: "D-003",
+    name: "Dr. Sarah Chen",
+    specialization: "Pediatrics",
+    experience: "15 Years",
+    email: "s.chen@apollo.emr",
+    phone: "+1 555-0103",
+    status: "available",
+    rating: 5.0,
   },
   {
-    id: "P-004",
-    name: "Emily Rodriguez",
-    email: "emily.r@example.com",
-    phone: "+1 234-567-8904",
-    status: "active",
-    lastVisit: "2024-05-14",
-    nextAppointment: "2024-06-12",
-    gender: "Female",
-    age: 31,
-  },
-  {
-    id: "P-005",
-    name: "David Wilson",
-    email: "d.wilson@example.com",
-    phone: "+1 234-567-8905",
-    status: "on-hold",
-    lastVisit: "2024-05-01",
-    nextAppointment: "2024-07-01",
-    gender: "Male",
-    age: 52,
-  },
-  {
-    id: "P-006",
-    name: "Olivia Martinez",
-    email: "olivia.m@example.com",
-    phone: "+1 234-567-8906",
-    status: "active",
-    lastVisit: "2024-05-11",
-    nextAppointment: "2024-06-18",
-    gender: "Female",
-    age: 26,
-  },
-  {
-    id: "P-007",
-    name: "James Anderson",
-    email: "j.anderson@example.com",
-    phone: "+1 234-567-8907",
-    status: "active",
-    lastVisit: "2024-05-08",
-    nextAppointment: "2024-06-22",
-    gender: "Male",
-    age: 39,
-  },
-  {
-    id: "P-008",
-    name: "Sophia Taylor",
-    email: "s.taylor@example.com",
-    phone: "+1 234-567-8908",
-    status: "inactive",
-    lastVisit: "2024-03-15",
-    nextAppointment: "N/A",
-    gender: "Female",
-    age: 44,
+    id: "D-004",
+    name: "Dr. Robert Black",
+    specialization: "Orthopedics",
+    experience: "10 Years",
+    email: "r.black@apollo.emr",
+    phone: "+1 555-0104",
+    status: "on-leave",
+    rating: 4.7,
   },
 ];
 
-export default function PatientsPage() {
-  const columns = useMemo<ColumnDef<Patient>[]>(
+export default function DoctorsPage() {
+  const columns = useMemo<ColumnDef<Doctor>[]>(
     () => [
       {
         accessorKey: "name",
-        header: "Patient",
+        header: "Doctor",
         cell: (info) => (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-100/50">
-              {String(info.getValue())[0]}
+            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-100/50">
+              {String(info.getValue())[4]}
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-gray-900 leading-tight">
@@ -145,15 +97,15 @@ export default function PatientsPage() {
         ),
       },
       {
-        accessorKey: "age",
-        header: "Age/Gender",
+        accessorKey: "specialization",
+        header: "Specialization",
         cell: (info) => (
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-gray-700">
-              {info.getValue() as number} Years
+              {info.getValue() as string}
             </span>
             <span className="text-xs text-gray-400 font-medium">
-              {info.row.original.gender}
+              {info.row.original.experience} Exp.
             </span>
           </div>
         ),
@@ -191,11 +143,11 @@ export default function PatientsPage() {
             <div
               className={cn(
                 "px-3 py-1.5 rounded-full text-xs font-bold w-fit uppercase tracking-wider",
-                status === "active" &&
+                status === "available" &&
                   "bg-emerald-50 text-emerald-600 border border-emerald-100",
-                status === "inactive" &&
+                status === "busy" &&
                   "bg-rose-50 text-rose-600 border border-rose-100",
-                status === "on-hold" &&
+                status === "on-leave" &&
                   "bg-amber-50 text-amber-600 border border-amber-100",
               )}
             >
@@ -205,16 +157,16 @@ export default function PatientsPage() {
         },
       },
       {
-        accessorKey: "nextAppointment",
-        header: "Next Visit",
+        accessorKey: "rating",
+        header: "Rating",
         cell: (info) => (
-          <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+          <div className="flex items-center gap-1.5 text-sm font-bold text-gray-700">
             <HugeiconsIcon
-              icon={Calendar03Icon}
-              size={18}
-              className="text-blue-500"
+              icon={StarIcon}
+              size={16}
+              className="text-amber-400 fill-amber-400"
             />
-            {info.getValue() as string}
+            {info.getValue() as number}
           </div>
         ),
       },
@@ -237,20 +189,20 @@ export default function PatientsPage() {
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-4xl font-black text-gray-900 tracking-tight">
-            Patient Registry
+            Medical Staff
           </h1>
           <p className="text-gray-500 font-medium text-lg mt-1">
-            Manage and monitor patient health records
+            Manage your medical professionals
           </p>
         </div>
         <div className="flex items-center gap-3">
           <button className="flex items-center gap-2 px-6 py-3.5 bg-white border border-gray-100 text-gray-700 rounded-2xl font-bold shadow-sm hover:bg-gray-50 transition-all active:scale-95">
             <HugeiconsIcon icon={Download01Icon} size={20} />
-            Export Data
+            Export List
           </button>
           <button className="flex items-center gap-2 px-6 py-3.5 bg-[#1a1a1a] text-white rounded-2xl font-bold shadow-lg shadow-gray-200 hover:bg-black transition-all active:scale-95">
             <HugeiconsIcon icon={Add01Icon} size={20} />
-            Add New Patient
+            Add Doctor
           </button>
         </div>
       </header>
@@ -259,28 +211,28 @@ export default function PatientsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           {
-            label: "Total Patients",
-            value: "1,284",
-            icon: UserGroupIcon,
-            color: "bg-blue-500",
+            label: "Total Doctors",
+            value: "42",
+            icon: DoctorIcon,
+            color: "bg-indigo-500",
           },
           {
-            label: "Active Now",
-            value: "482",
+            label: "On Duty",
+            value: "31",
             icon: Clock01Icon,
             color: "bg-emerald-500",
           },
           {
-            label: "Appointments",
-            value: "24",
-            icon: Calendar03Icon,
-            color: "bg-purple-500",
+            label: "Average Rating",
+            value: "4.8",
+            icon: StarIcon,
+            color: "bg-amber-500",
           },
           {
-            label: "New Records",
-            value: "12",
-            icon: Add01Icon,
-            color: "bg-amber-500",
+            label: "Consultations",
+            value: "156",
+            icon: Calendar03Icon,
+            color: "bg-blue-500",
           },
         ].map((stat, i) => (
           <motion.div
@@ -308,7 +260,6 @@ export default function PatientsPage() {
                 </h3>
               </div>
             </div>
-            {/* Decoration */}
             <div className="absolute -bottom-6 -right-6 text-gray-50 opacity-50 group-hover:rotate-12 transition-transform duration-500">
               <HugeiconsIcon icon={stat.icon} size={120} />
             </div>
@@ -318,8 +269,8 @@ export default function PatientsPage() {
 
       <EMRDataTable
         columns={columns}
-        data={MOCK_PATIENTS}
-        searchPlaceholder="Search patients by name, ID or email..."
+        data={MOCK_DOCTORS}
+        searchPlaceholder="Search doctors by name or specialization..."
       />
     </div>
   );
