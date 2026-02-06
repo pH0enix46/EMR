@@ -15,12 +15,7 @@ import {
   DashboardCircleIcon,
 } from "@hugeicons/core-free-icons";
 import { getCurrentUser, logout, type User } from "@/app/_auth/auth";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from "@/app/_utils/cn";
 
 const NAV_ITEMS = [
   { name: "Patient", href: "/medical/dashboard/patients", icon: UserGroupIcon },
@@ -40,7 +35,11 @@ export function Sidebar() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    setUser(getCurrentUser());
+    // We check for user only on client to avoid hydration mismatch
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
+    }
   }, []);
 
   const handleLogout = () => {
@@ -52,38 +51,47 @@ export function Sidebar() {
   return (
     <motion.div
       initial={false}
-      animate={{ width: isCollapsed ? 88 : 280 }}
-      className="h-[calc(100vh-2rem)] bg-[#1a1a1a] text-white rounded-[2.5rem] flex flex-col overflow-hidden transition-all duration-300 ease-in-out shadow-2xl m-4"
+      animate={{ width: isCollapsed ? 120 : 320 }}
+      transition={{ type: "spring", damping: 20, stiffness: 100 }}
+      className="h-[calc(100vh-2rem)] bg-[#0d0d0d] text-white rounded-[3rem] flex flex-col overflow-hidden shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar"
     >
       {/* Profile Section */}
-      <div className="p-8 flex items-center gap-4">
-        <div className="relative">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center overflow-hidden">
-            {/* Simple Avatar Placeholder */}
-            <span className="text-xl font-bold">{user?.name?.[0] || "U"}</span>
+      <div
+        className={cn(
+          "p-8 flex items-center gap-4 transition-all duration-500",
+          isCollapsed ? "flex-col justify-center px-4" : "flex-row",
+        )}
+      >
+        <div className="relative shrink-0">
+          <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center overflow-hidden shadow-xl shadow-indigo-500/20 active:scale-95 transition-transform cursor-pointer">
+            <span className="text-xl font-black">{user?.name?.[0] || "A"}</span>
           </div>
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-[#1a1a1a] flex items-center justify-center">
-            <span className="text-[10px] font-bold">4</span>
+          <div className="absolute -top-1 -right-1 w-6 h-6 bg-rose-500 rounded-full border-4 border-[#0d0d0d] flex items-center justify-center shadow-lg">
+            <span className="text-[10px] font-black leading-none">4</span>
           </div>
         </div>
-        {!isCollapsed && (
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col overflow-hidden"
-          >
-            <span className="font-semibold truncate">
-              {user?.name || "User Name"}
-            </span>
-            <span className="text-xs text-gray-400 truncate">
-              {user?.email || "user@email.com"}
-            </span>
-          </motion.div>
-        )}
+
+        <AnimatePresence mode="wait">
+          {!isCollapsed && (
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              className="flex flex-col overflow-hidden"
+            >
+              <span className="font-bold text-lg truncate tracking-tight text-gray-100">
+                {user?.name || "Admin User"}
+              </span>
+              <span className="text-sm text-gray-500 truncate font-semibold opacity-80">
+                {user?.email || "admin@emr.com"}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 space-y-2">
+      <nav className="flex-1 px-6 mt-2 space-y-2">
         <NavItem
           name="Dashboard"
           href="/medical/dashboard"
@@ -91,7 +99,11 @@ export function Sidebar() {
           isCollapsed={isCollapsed}
           isActive={pathname === "/medical/dashboard"}
         />
-        <div className="h-px bg-white/10 my-4 mx-4" />
+
+        <div className="px-4 py-3">
+          <div className="h-px bg-white/10 w-full rounded-full shadow-[0_0_10px_rgba(255,255,255,0.05)]" />
+        </div>
+
         {NAV_ITEMS.map((item) => (
           <NavItem
             key={item.name}
@@ -103,34 +115,43 @@ export function Sidebar() {
       </nav>
 
       {/* Bottom Actions */}
-      <div className="p-4 mt-auto space-y-2">
+      <div className="p-6 space-y-2 mt-auto">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group"
+          className={cn(
+            "w-full flex items-center gap-4 px-5 py-5 rounded-3xl text-gray-400 hover:text-white hover:bg-white/5 transition-all group/collapse",
+            isCollapsed && "justify-center px-0",
+          )}
         >
-          {isCollapsed ? (
-            <div className="mx-auto">
-              <HugeiconsIcon icon={Menu01Icon} size={24} />
-            </div>
-          ) : (
-            <>
-              <HugeiconsIcon icon={Cancel01Icon} size={24} />
-              <span className="font-medium text-lg">Collapse</span>
-            </>
+          <div className="relative shrink-0 w-6 h-6 flex items-center justify-center">
+            <HugeiconsIcon
+              icon={isCollapsed ? Menu01Icon : Cancel01Icon}
+              size={24}
+              className="transition-all duration-500 group-hover/collapse:rotate-180"
+            />
+          </div>
+          {!isCollapsed && (
+            <span className="font-bold text-lg tracking-tight">Collapse</span>
           )}
         </button>
+
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-all group"
+          className={cn(
+            "w-full flex items-center gap-4 px-5 py-5 rounded-3xl text-rose-400/80 hover:text-rose-400 hover:bg-rose-500/10 transition-all group/logout",
+            isCollapsed && "justify-center px-0",
+          )}
         >
-          <div className={cn(isCollapsed && "mx-auto")}>
+          <div className="relative shrink-0 w-6 h-6 flex items-center justify-center">
             <HugeiconsIcon
               icon={Logout01Icon}
               size={24}
-              className="group-hover:translate-x-1 transition-transform"
+              className="group-hover/logout:translate-x-1 transition-transform duration-300"
             />
           </div>
-          {!isCollapsed && <span className="font-medium text-lg">Logout</span>}
+          {!isCollapsed && (
+            <span className="font-bold text-lg tracking-tight">Logout</span>
+          )}
         </button>
       </div>
     </motion.div>
@@ -146,7 +167,7 @@ function NavItem({
 }: {
   name: string;
   href: string;
-  icon: any;
+  icon: React.ElementType;
   isCollapsed: boolean;
   isActive: boolean;
 }) {
@@ -154,36 +175,40 @@ function NavItem({
 
   return (
     <button
-      onClick={() => router.push(href)}
+      onClick={() => router.push(href as any)}
       className={cn(
-        "w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-200 group relative",
+        "w-full flex items-center gap-4 px-5 py-5 rounded-[2rem] transition-all duration-500 group relative",
         isActive
-          ? "text-white font-semibold"
-          : "text-gray-400 hover:text-white hover:bg-white/5",
+          ? "text-white"
+          : "text-gray-500 hover:text-gray-300 hover:bg-white/5",
+        isCollapsed && "justify-center px-0",
       )}
     >
       {isActive && (
         <motion.div
           layoutId="active-nav"
-          className="absolute inset-0 bg-white/10 rounded-2xl"
-          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+          className="absolute inset-0 bg-[#1d1d1d] border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+          style={{ borderRadius: "1.75rem" }}
+          transition={{ type: "spring", bounce: 0.25, duration: 0.8 }}
         />
       )}
-      <div className={cn(isCollapsed && "mx-auto", "relative z-10")}>
+      <div className="relative z-10 shrink-0 w-6 h-6 flex items-center justify-center">
         <HugeiconsIcon
           icon={Icon}
           size={24}
           className={cn(
-            "transition-transform duration-200",
-            isActive ? "scale-110" : "group-hover:scale-110",
+            "transition-all duration-500",
+            isActive
+              ? "text-white scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              : "group-hover:scale-110",
           )}
         />
       </div>
       {!isCollapsed && (
         <motion.span
-          initial={{ opacity: 0, x: -10 }}
+          initial={false}
           animate={{ opacity: 1, x: 0 }}
-          className="relative z-10 font-medium text-lg"
+          className="relative z-10 font-bold text-lg tracking-tight whitespace-nowrap overflow-hidden"
         >
           {name}
         </motion.span>
