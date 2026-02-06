@@ -16,6 +16,15 @@ import {
 import { getCurrentUser, logout, type User } from "@/app/_auth/auth";
 import { cn } from "@/app/_utils/cn";
 
+// Define better types for navigation items
+interface NavItemProps {
+  name: string;
+  href: string;
+  icon: React.ElementType | any;
+  isCollapsed: boolean;
+  isActive: boolean;
+}
+
 const NAV_ITEMS = [
   { name: "Patient", href: "/medical/dashboard/patients", icon: UserGroupIcon },
   { name: "Doctor", href: "/medical/dashboard/doctors", icon: DoctorIcon },
@@ -34,14 +43,13 @@ export function Sidebar() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // Ensuring this only runs on the client
-    const currentUser = getCurrentUser();
-    setUser(currentUser);
+    // Only run on mount to get the user from storage
+    setUser(getCurrentUser());
   }, []);
 
   const handleLogout = () => {
     logout();
-    router.push("/login");
+    router.push("/login" as any);
     router.refresh();
   };
 
@@ -97,11 +105,10 @@ export function Sidebar() {
           isActive={pathname === "/medical/dashboard"}
         />
 
-        {/* Divider with Collapse Toggle Button (The "Red Mark" Logic) */}
+        {/* Divider with Collapse Toggle Button */}
         <div className="px-4 py-4 relative">
           <div className="h-px bg-white/10 w-full rounded-full" />
 
-          {/* The Collapse Toggle Button - Positioned where user marked */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 bg-[#1d1d1d] border border-white/10 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-all shadow-xl z-20 group/btn"
@@ -158,13 +165,7 @@ function NavItem({
   icon: Icon,
   isCollapsed,
   isActive,
-}: {
-  name: string;
-  href: string;
-  icon: any;
-  isCollapsed: boolean;
-  isActive: boolean;
-}) {
+}: NavItemProps) {
   const router = useRouter();
 
   return (
