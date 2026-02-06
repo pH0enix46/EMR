@@ -10,16 +10,11 @@ import {
   DoctorIcon,
   UserSearchIcon,
   Logout01Icon,
-  Menu01Icon,
-  Cancel01Icon,
   DashboardCircleIcon,
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 import { getCurrentUser, logout, type User } from "@/app/_auth/auth";
 import { cn } from "@/app/_utils/cn";
-
-// Proper types for Hugeicons
-type HugeiconsIconType = any; // The library uses a complex object format
 
 const NAV_ITEMS = [
   { name: "Patient", href: "/medical/dashboard/patients", icon: UserGroupIcon },
@@ -30,7 +25,7 @@ const NAV_ITEMS = [
     icon: UserSearchIcon,
   },
   { name: "Worker", href: "/medical/dashboard/workers", icon: UserAccountIcon },
-];
+] as const;
 
 export function Sidebar() {
   const router = useRouter();
@@ -39,11 +34,9 @@ export function Sidebar() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // We check for user only on client to avoid hydration mismatch
+    // Ensuring this only runs on the client
     const currentUser = getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
-    }
+    setUser(currentUser);
   }, []);
 
   const handleLogout = () => {
@@ -57,7 +50,7 @@ export function Sidebar() {
       initial={false}
       animate={{ width: isCollapsed ? 100 : 320 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
-      className="h-[calc(100vh-2rem)] bg-[#0d0d0d] text-white rounded-[3rem] flex flex-col overflow-visible shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar m-4"
+      className="h-[calc(100vh-2rem)] bg-[#0d0d0d] text-white rounded-4xl flex flex-col overflow-visible shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar m-4"
     >
       {/* Profile Section */}
       <div
@@ -111,13 +104,13 @@ export function Sidebar() {
           {/* The Collapse Toggle Button - Positioned where user marked */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 bg-[#1d1d1d] border border-white/10 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-all shadow-xl z-20"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 bg-[#1d1d1d] border border-white/10 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-all shadow-xl z-20 group/btn"
           >
             <HugeiconsIcon
               icon={ArrowRight01Icon}
               size={16}
               className={cn(
-                "transition-transform duration-300",
+                "transition-all duration-300 group-hover/btn:scale-110",
                 isCollapsed ? "rotate-0" : "rotate-180",
               )}
             />
@@ -168,7 +161,7 @@ function NavItem({
 }: {
   name: string;
   href: string;
-  icon: HugeiconsIconType;
+  icon: any;
   isCollapsed: boolean;
   isActive: boolean;
 }) {
@@ -176,9 +169,9 @@ function NavItem({
 
   return (
     <button
-      onClick={() => router.push(href)}
+      onClick={() => router.push(href as any)}
       className={cn(
-        "w-full flex items-center gap-4 px-5 py-5 rounded-[2rem] transition-all duration-500 group relative",
+        "w-full flex items-center gap-4 px-5 py-5 rounded-4xl transition-all duration-500 group relative",
         isActive
           ? "text-white"
           : "text-gray-500 hover:text-gray-300 hover:bg-white/5",
