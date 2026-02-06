@@ -3,6 +3,13 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/app/_auth/auth";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  LockPasswordIcon,
+  Mail01Icon,
+  HelpCircleIcon,
+} from "@hugeicons/core-free-icons";
+import { motion } from "motion/react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,7 +27,6 @@ export default function LoginPage() {
       const user = login(email, password);
 
       if (user) {
-        // Success - redirect to dashboard
         router.push("/dashboard");
         router.refresh();
       } else {
@@ -34,121 +40,108 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
-      <div className="w-full max-w-md">
-        {/* Card */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20">
-          {/* Logo/Title */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl mb-4 shadow-lg">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                />
-              </svg>
+    <div className="min-h-screen flex items-center justify-center bg-[#f3f4f6] p-4 font-josefin">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-md"
+      >
+        <div className="bg-white rounded-[2.5rem] shadow-2xl p-10 border border-white">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#1a1a1a] rounded-3xl mb-6 shadow-xl shadow-gray-200">
+              <HugeiconsIcon
+                icon={LockPasswordIcon}
+                size={40}
+                className="text-white"
+              />
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
               Apollo EMR
             </h1>
-            <p className="text-gray-600 mt-2">Sign in to your account</p>
+            <p className="text-gray-400 mt-3 font-semibold text-lg">
+              Sign in to your account
+            </p>
           </div>
 
-          {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm animate-shake">
+            <motion.div
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              className="mb-8 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 font-bold text-sm flex items-center gap-3"
+            >
+              <HugeiconsIcon icon={HelpCircleIcon} size={20} />
               {error}
-            </div>
+            </motion.div>
           )}
 
-          {/* Demo Credentials */}
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl text-sm">
-            <p className="font-semibold text-blue-900 mb-2">
+          <div className="mb-8 p-6 bg-blue-50/50 border border-blue-100 rounded-3xl text-sm">
+            <p className="font-bold text-blue-900 mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
               Demo Credentials:
             </p>
-            <div className="space-y-1 text-blue-700">
+            <div className="space-y-2 text-blue-700 font-semibold">
               <p>• admin@emr.com / admin123</p>
               <p>• doctor@emr.com / doctor123</p>
               <p>• user@emr.com / user123</p>
             </div>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-gray-700 px-1">
                 Email Address
               </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                placeholder="you@example.com"
-              />
+              <div className="relative group">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#1a1a1a] transition-colors">
+                  <HugeiconsIcon icon={Mail01Icon} size={20} />
+                </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 transition-all outline-none font-semibold"
+                  placeholder="you@example.com"
+                />
+              </div>
             </div>
 
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                placeholder="••••••••"
-              />
+            <div className="space-y-2">
+              <div className="flex justify-between items-center px-1">
+                <label className="text-sm font-bold text-gray-700">
+                  Password
+                </label>
+                <button
+                  type="button"
+                  className="text-sm font-bold text-blue-600 hover:underline"
+                >
+                  Forgot?
+                </button>
+              </div>
+              <div className="relative group">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#1a1a1a] transition-colors">
+                  <HugeiconsIcon icon={LockPasswordIcon} size={20} />
+                </div>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 transition-all outline-none font-semibold"
+                  placeholder="••••••••"
+                />
+              </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-[#1a1a1a] text-white font-bold rounded-2xl shadow-xl hover:bg-black transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] mt-4"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
-                  <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Signing in...
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/20 border-t-white mr-3"></div>
+                  Authenticating...
                 </span>
               ) : (
                 "Sign In"
@@ -156,30 +149,11 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Footer */}
-          <p className="text-center text-sm text-gray-500 mt-6">
-            Secure authentication powered by Apollo EMR
+          <p className="text-center text-sm text-gray-400 font-bold mt-8">
+            Securely encrypted by Apollo EMR
           </p>
         </div>
-      </div>
-
-      <style jsx>{`
-        @keyframes shake {
-          0%,
-          100% {
-            transform: translateX(0);
-          }
-          25% {
-            transform: translateX(-10px);
-          }
-          75% {
-            transform: translateX(10px);
-          }
-        }
-        .animate-shake {
-          animation: shake 0.3s ease-in-out;
-        }
-      `}</style>
+      </motion.div>
     </div>
   );
 }
