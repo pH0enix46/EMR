@@ -48,7 +48,7 @@ export default function LoginPage() {
       >
         <div className="bg-white rounded-[2.5rem] shadow-2xl p-10 border border-white">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-[#1a1a1a] rounded-3xl mb-6 shadow-xl shadow-gray-200">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-sky-500 rounded-3xl mb-6 shadow-xl shadow-sky-200">
               <HugeiconsIcon
                 icon={LockPasswordIcon}
                 size={40}
@@ -74,12 +74,12 @@ export default function LoginPage() {
             </motion.div>
           )}
 
-          <div className="mb-8 p-6 bg-blue-50/50 border border-blue-100 rounded-3xl text-sm">
-            <p className="font-bold text-blue-900 mb-3 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
+          <div className="mb-8 p-6 bg-sky-50/50 border border-sky-100 rounded-3xl text-sm">
+            <p className="font-bold text-sky-900 mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-sky-600 rounded-full" />
               Demo Credentials:
             </p>
-            <div className="space-y-2 text-blue-700 font-semibold">
+            <div className="space-y-2 text-sky-700 font-semibold">
               <p>• admin@emr.com / admin123</p>
               <p>• doctor@emr.com / doctor123</p>
               <p>• user@emr.com / user123</p>
@@ -100,7 +100,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 transition-all outline-none font-semibold"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-sky-500 transition-all outline-none font-semibold"
                   placeholder="you@example.com"
                 />
               </div>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                 </label>
                 <button
                   type="button"
-                  className="text-sm font-bold text-blue-600 hover:underline"
+                  className="text-sm font-bold text-sky-600 hover:underline"
                 >
                   Forgot?
                 </button>
@@ -127,7 +127,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-blue-500 transition-all outline-none font-semibold"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-sky-500 transition-all outline-none font-semibold"
                   placeholder="••••••••"
                 />
               </div>
@@ -136,7 +136,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-5 bg-[#1a1a1a] text-white font-bold rounded-2xl shadow-xl hover:bg-black transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] mt-4"
+              className="w-full py-5 bg-sky-500 text-white font-bold rounded-2xl shadow-xl shadow-sky-200 hover:bg-sky-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] mt-4"
             >
               {loading ? (
                 <span className="flex items-center justify-center">

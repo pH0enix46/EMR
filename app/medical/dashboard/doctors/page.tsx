@@ -82,7 +82,7 @@ export default function DoctorsPage() {
         header: "Doctor",
         cell: (info) => (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-100/50">
+            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-sky-500 to-sky-700 flex items-center justify-center text-white font-bold shadow-lg shadow-sky-100/50">
               {String(info.getValue())[4]}
             </div>
             <div className="flex flex-col">
@@ -200,7 +200,7 @@ export default function DoctorsPage() {
             <HugeiconsIcon icon={Download01Icon} size={20} />
             Export List
           </button>
-          <button className="flex items-center gap-2 px-6 py-3.5 bg-[#1a1a1a] text-white rounded-2xl font-bold shadow-lg shadow-gray-200 hover:bg-black transition-all active:scale-95">
+          <button className="flex items-center gap-2 px-6 py-3.5 bg-sky-500 text-white rounded-2xl font-bold shadow-lg shadow-sky-200 hover:bg-sky-600 transition-all active:scale-95">
             <HugeiconsIcon icon={Add01Icon} size={20} />
             Add Doctor
           </button>
@@ -214,7 +214,7 @@ export default function DoctorsPage() {
             label: "Total Doctors",
             value: "42",
             icon: DoctorIcon,
-            color: "bg-indigo-500",
+            color: "bg-sky-500",
           },
           {
             label: "On Duty",
@@ -232,7 +232,7 @@ export default function DoctorsPage() {
             label: "Consultations",
             value: "156",
             icon: Calendar03Icon,
-            color: "bg-blue-500",
+            color: "bg-sky-600",
           },
         ].map((stat, i) => (
           <motion.div

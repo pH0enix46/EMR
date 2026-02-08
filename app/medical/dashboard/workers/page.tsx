@@ -187,7 +187,7 @@ export default function WorkersPage() {
             <HugeiconsIcon icon={Download01Icon} size={20} />
             Export Staff
           </button>
-          <button className="flex items-center gap-2 px-6 py-3.5 bg-[#1a1a1a] text-white rounded-2xl font-bold shadow-lg shadow-gray-200 hover:bg-black transition-all active:scale-95">
+          <button className="flex items-center gap-2 px-6 py-3.5 bg-sky-500 text-white rounded-2xl font-bold shadow-lg shadow-sky-200 hover:bg-sky-600 transition-all active:scale-95">
             <HugeiconsIcon icon={Add01Icon} size={20} />
             Add Staff
           </button>
@@ -212,7 +212,7 @@ export default function WorkersPage() {
             label: "Departments",
             value: "8",
             icon: Briefcase01Icon,
-            color: "bg-blue-500",
+            color: "bg-sky-500",
           },
           {
             label: "Upcoming",

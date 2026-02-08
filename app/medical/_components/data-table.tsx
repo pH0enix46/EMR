@@ -59,13 +59,13 @@ export function EMRDataTable<TData, TValue>({
       {/* Table Toolbar */}
       <div className="p-8 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="relative flex-1 max-w-md group">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-sky-500 transition-colors">
             <HugeiconsIcon icon={Search01Icon} size={20} />
           </div>
           <input
             type="text"
             placeholder={searchPlaceholder}
-            className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl text-sm font-semibold placeholder:text-gray-400 focus:ring-2 focus:ring-blue-100 transition-all outline-none"
+            className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl text-sm font-semibold placeholder:text-gray-400 focus:ring-2 focus:ring-sky-100 transition-all outline-none"
             value={globalFilter ?? ""}
             onChange={(e) => setGlobalFilter(e.target.value)}
           />
@@ -165,7 +165,7 @@ export function EMRDataTable<TData, TValue>({
             Previous
           </button>
           <button
-            className="px-6 py-3 bg-[#1a1a1a] text-white rounded-xl font-bold hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-gray-200"
+            className="px-6 py-3 bg-sky-500 text-white rounded-xl font-bold hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-sky-100"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
