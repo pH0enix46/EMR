@@ -58,7 +58,7 @@ export function Sidebar() {
       initial={false}
       animate={{ width: isCollapsed ? 120 : 320 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
-      className="h-full bg-[#0d0d0d] text-white rounded-4xl flex flex-col overflow-visible shadow-[20px_0_50px_rgba(0,0,0,0.3)] relative group/sidebar"
+      className="h-full bg-white text-slate-900 border-r border-slate-200 rounded-4xl flex flex-col overflow-visible shadow-[20px_0_50px_rgba(0,0,0,0.05)] relative group/sidebar"
     >
       {/* Profile Section */}
       <div
@@ -84,7 +84,7 @@ export function Sidebar() {
               exit={{ opacity: 0, x: -10 }}
               className="flex flex-col overflow-hidden"
             >
-              <span className="font-bold text-lg truncate tracking-tight text-gray-100">
+              <span className="font-bold text-lg truncate tracking-tight text-slate-900">
                 {user?.name || "Admin User"}
               </span>
               <span className="text-sm text-gray-500 truncate font-semibold opacity-80">
@@ -107,11 +107,11 @@ export function Sidebar() {
 
         {/* Divider with Collapse Toggle Button */}
         <div className="px-4 py-4 relative">
-          <div className="h-px bg-white/10 w-full rounded-full" />
+          <div className="h-px bg-slate-200 w-full rounded-full" />
 
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 bg-[#1d1d1d] border border-white/10 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-all shadow-xl z-20 group/btn"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center hover:bg-sky-600 hover:text-white transition-all shadow-md z-20 group/btn"
           >
             <HugeiconsIcon
               icon={ArrowRight01Icon}
@@ -139,7 +139,7 @@ export function Sidebar() {
         <button
           onClick={handleLogout}
           className={cn(
-            "w-full flex items-center gap-4 px-5 py-5 rounded-3xl text-rose-400/80 hover:text-rose-400 hover:bg-rose-500/10 transition-all group/logout",
+            "w-full flex items-center gap-4 px-5 py-5 rounded-3xl text-rose-500 hover:text-rose-600 hover:bg-rose-50 transition-all group/logout",
             isCollapsed && "justify-center px-0",
           )}
         >
@@ -175,14 +175,14 @@ function NavItem({
         "w-full flex items-center gap-4 px-5 py-5 rounded-4xl transition-all duration-500 group relative",
         isActive
           ? "text-white"
-          : "text-gray-500 hover:text-gray-300 hover:bg-white/5",
+          : "text-slate-500 hover:text-slate-900 hover:bg-slate-100",
         isCollapsed && "justify-center px-0",
       )}
     >
       {isActive && (
         <motion.div
           layoutId="active-nav"
-          className="absolute inset-0 bg-[#1d1d1d] border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+          className="absolute inset-0 bg-sky-500 shadow-lg shadow-sky-500/30"
           style={{ borderRadius: "1.75rem" }}
           transition={{ type: "spring", bounce: 0.25, duration: 0.8 }}
         />

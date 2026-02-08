@@ -19,7 +19,7 @@
   --color-text-medium: #475569; /* slate-600 */
   --color-text-low: #94a3b8; /* slate-400 */
 
-  --color-primary: #0284c7; /* sky-600 */
+  --color-primary: #0ea5e9; /* sky-500 */
   --color-secondary: ;
 
   --color-ui-focus: #f1f5f9; /* slate-100 */
@@ -39,7 +39,7 @@
   --color-text-medium: #cbd5e1; /* slate-300 */
   --color-text-low: #64748b; /* slate-500 */
 
-  --color-primary: #38bdf8; /* sky-400 */
+  --color-primary: #0ea5e9; /* sky-500 */
   --color-secondary: ;
 
   --color-ui-focus: #0f172a; /* slate-900 */
@@ -60,7 +60,7 @@
     --color-text-medium: #cbd5e1;
     --color-text-low: #64748b;
 
-    --color-primary: #38bdf8;
+    --color-primary: #0ea5e9;
     --color-secondary: ;
 
     --color-ui-focus: #0f172a;
