@@ -39,7 +39,7 @@ const TRANSACTIONS = [
     location: "Belanja di pasar",
     price: "-326.800",
     icon: ShoppingBasket01Icon,
-    color: "bg-blue-500",
+    color: "bg-sky-500",
   },
   {
     id: 2,
@@ -145,8 +145,8 @@ export default function DashboardPage() {
                 {DATA.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={entry.active ? "#3b82f6" : "#e0f2fe"}
-                    className="hover:fill-blue-400 transition-colors duration-300"
+                    fill={entry.active ? "#0ea5e9" : "#e0f2fe"}
+                    className="hover:fill-sky-400 transition-colors duration-300"
                   />
                 ))}
               </Bar>
@@ -216,10 +216,10 @@ export default function DashboardPage() {
         </section>
 
         {/* Promo Card */}
-        <div className="relative bg-[#f8faff] rounded-[3rem] p-10 overflow-hidden group shadow-sm border border-blue-50">
+        <div className="relative bg-[#f8faff] rounded-[3rem] p-10 overflow-hidden group shadow-sm border border-sky-50">
           <div className="relative z-10 space-y-8">
             <div className="flex gap-3">
-              <div className="w-14 h-14 bg-blue-500 rounded-2xl shadow-lg shadow-blue-200 flex items-center justify-center text-white">
+              <div className="w-14 h-14 bg-sky-500 rounded-2xl shadow-lg shadow-sky-200 flex items-center justify-center text-white">
                 <HugeiconsIcon icon={ShoppingBasket01Icon} size={24} />
               </div>
               <div className="w-14 h-14 bg-orange-400 rounded-2xl shadow-lg shadow-orange-200 mt-6 flex items-center justify-center text-white">
@@ -235,12 +235,12 @@ export default function DashboardPage() {
                 enim ad minim.
               </p>
             </div>
-            <button className="w-full bg-[#1a1a1a] text-white py-5 rounded-2xl font-bold text-sm tracking-[0.2em] hover:bg-black transition-all uppercase shadow-lg shadow-gray-200 active:scale-[0.98]">
+            <button className="w-full bg-sky-500 text-white py-5 rounded-2xl font-bold text-sm tracking-[0.2em] hover:bg-sky-600 transition-all uppercase shadow-lg shadow-sky-200 active:scale-[0.98]">
               View Tips
             </button>
           </div>
           {/* Abstract Icon Decoration */}
-          <div className="absolute top-6 right-6 text-blue-100 opacity-60 rotate-12 group-hover:rotate-45 transition-transform duration-700">
+          <div className="absolute top-6 right-6 text-sky-100 opacity-60 rotate-12 group-hover:rotate-45 transition-transform duration-700">
             <HugeiconsIcon icon={Home01Icon} size={120} />
           </div>
         </div>
