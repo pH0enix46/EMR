@@ -14,7 +14,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { motion } from "motion/react";
 import { cn } from "@/app/_utils/cn";
-import { getCurrentUser, logout } from "@/app/_auth/auth";
+import { getCurrentUser, logout, type User } from "@/app/_auth/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -32,7 +32,7 @@ const NAV_ITEMS = [
 export function SuperAdminNavbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     setUser(getCurrentUser());
@@ -48,7 +48,7 @@ export function SuperAdminNavbar() {
       <div className="max-w-[1600px] mx-auto h-full px-8 flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
+          <div className="w-10 h-10 bg-linear-to-tr from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
             <span className="text-white font-black text-xl">S</span>
           </div>
           <div className="flex flex-col">
@@ -68,7 +68,7 @@ export function SuperAdminNavbar() {
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.href as any}
                 className={cn(
                   "relative px-6 py-2.5 rounded-xl flex items-center gap-2 transition-all duration-300 group",
                   isActive

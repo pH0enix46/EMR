@@ -8,7 +8,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: "admin" | "user" | "doctor" | "nurse";
+  role: "admin" | "user" | "doctor" | "nurse" | "superadmin";
 }
 
 const AUTH_KEY = "emr_auth_user";
@@ -20,6 +20,15 @@ const TOKEN_KEY = "emr_auth_token";
 export function login(email: string, password: string): User | null {
   // Demo credentials - replace with real API call
   const demoUsers: Record<string, { password: string; user: User }> = {
+    "superadmin@emr.com": {
+      password: "superadmin123",
+      user: {
+        id: "0",
+        email: "superadmin@emr.com",
+        name: "Super Admin",
+        role: "superadmin",
+      },
+    },
     "admin@emr.com": {
       password: "admin123",
       user: {

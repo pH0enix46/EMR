@@ -5,7 +5,6 @@ import { getCurrentUser, type User } from "@/app/_auth/auth";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Database01Icon,
-  Database01Icon,
   Globe02Icon,
   ArrowRight01Icon,
   SecurityCheckIcon,
@@ -96,7 +95,7 @@ export default function SuperAdminDashboardPage() {
             <div className="flex justify-between items-start mb-4">
               <div
                 className={cn(
-                  "w-12 h-12 rounded-2xl flex items-center justify-center text-white border border-white/5 shadow-inner bg-gradient-to-br",
+                  "w-12 h-12 rounded-2xl flex items-center justify-center text-white border border-white/5 shadow-inner bg-linear-to-br",
                   stat.color === "violet" &&
                     "from-violet-500/20 to-purple-600/20",
                   stat.color === "indigo" &&
@@ -199,7 +198,8 @@ export default function SuperAdminDashboardPage() {
             ))}
 
             <div className="relative z-10 text-center space-y-2 bg-zinc-950/80 backdrop-blur-sm p-6 rounded-2xl border border-white/10">
-              <SecurityCheckIcon
+              <HugeiconsIcon
+                icon={SecurityCheckIcon}
                 size={32}
                 className="mx-auto text-emerald-500 mb-2"
               />
@@ -219,7 +219,7 @@ export default function SuperAdminDashboardPage() {
           </div>
 
           <div className="flex-1 space-y-4 font-mono text-xs overflow-hidden relative">
-            <div className="absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-zinc-900/40 to-transparent z-10" />
+            <div className="absolute top-0 left-0 w-full h-8 bg-linear-to-b from-zinc-900/40 to-transparent z-10" />
 
             {[
               {
@@ -271,12 +271,13 @@ export default function SuperAdminDashboardPage() {
               </div>
             ))}
 
-            <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-zinc-900/40 to-transparent z-10 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-full h-12 bg-linear-to-t from-zinc-900/40 to-transparent z-10 pointer-events-none" />
           </div>
 
           <button className="w-full mt-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-zinc-400 hover:text-white transition-all text-sm font-bold flex items-center justify-center gap-2 group">
             View Full Terminal
-            <ArrowRight01Icon
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
               size={16}
               className="group-hover:translate-x-1 transition-transform"
             />

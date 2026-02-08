@@ -27,7 +27,11 @@ export default function LoginPage() {
       const user = login(email, password);
 
       if (user) {
-        router.push("/medical/dashboard");
+        if (user.role === "superadmin") {
+          router.push("/superadmin/dashboard");
+        } else {
+          router.push("/medical/dashboard");
+        }
         router.refresh();
       } else {
         setError("Invalid email or password");

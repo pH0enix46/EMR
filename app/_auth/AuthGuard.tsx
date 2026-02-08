@@ -23,7 +23,21 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
       // If authenticated and trying to access login page
       if (isAuthenticated() && pathname === "/login") {
-        router.push("/dashboard");
+        const userStr = localStorage.getItem("emr_auth_user");
+        if (userStr) {
+          try {
+            const user = JSON.parse(userStr);
+            if (user.role === "superadmin") {
+              router.push("/superadmin/dashboard");
+            } else {
+              router.push("/medical/dashboard");
+            }
+          } catch {
+            router.push("/medical/dashboard");
+          }
+        } else {
+          router.push("/medical/dashboard");
+        }
       }
     };
 
