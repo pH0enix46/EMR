@@ -8,7 +8,7 @@ export default function HomePage() {
 
   useEffect(() => {
     // Redirect to dashboard (AuthGuard will handle auth check)
-    router.push("/dashboard");
+    router.push("/medical/dashboard");
   }, [router]);
 
   return (

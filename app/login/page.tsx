@@ -27,7 +27,7 @@ export default function LoginPage() {
       const user = login(email, password);
 
       if (user) {
-        router.push("/dashboard");
+        router.push("/medical/dashboard");
         router.refresh();
       } else {
         setError("Invalid email or password");
