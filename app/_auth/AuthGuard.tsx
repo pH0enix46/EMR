@@ -21,22 +21,38 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
       }
 
-      // If authenticated and trying to access login page
-      if (isAuthenticated() && pathname === "/login") {
+      // If authenticated
+      if (isAuthenticated()) {
         const userStr = localStorage.getItem("emr_auth_user");
         if (userStr) {
           try {
             const user = JSON.parse(userStr);
-            if (user.role === "superadmin") {
+
+            // 1. If at login page, redirect to appropriate home
+            if (pathname === "/login") {
+              if (user.role === "superadmin") {
+                router.push("/superadmin/dashboard");
+              } else {
+                router.push("/medical/dashboard");
+              }
+              return;
+            }
+
+            // 2. Cross-access prevention
+            if (
+              user.role === "superadmin" &&
+              (pathname.startsWith("/medical") || pathname === "/")
+            ) {
               router.push("/superadmin/dashboard");
-            } else {
+            } else if (
+              user.role !== "superadmin" &&
+              pathname.startsWith("/superadmin")
+            ) {
               router.push("/medical/dashboard");
             }
           } catch {
-            router.push("/medical/dashboard");
+            if (pathname === "/login") router.push("/medical/dashboard");
           }
-        } else {
-          router.push("/medical/dashboard");
         }
       }
     };
